@@ -1,58 +1,147 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-*, *:before, *:after {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
-  box-sizing: inherit;
+@font-face {
+  font-family: "Font";
+  src: url(Asset/Font/SpookyMonster.otf);
 }
 
-html {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 10px;
-}
-
-body {
-  padding: 0;
+* {
   margin: 0;
-  font-family: 'Nunito', sans-serif;
-  background: #fff9e2;
-  text-align: center;
+  padding: 0;
+  font-family: "Font";
 }
 
-
-h1 {
-  font-size: 4.5rem;
-  line-height: 1;
-  margin: 2rem 0 0 0;
-  color: #ff7660;
+/* General Styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-h2 {
-  font-size: 3rem;
-  color: #3b1010;
-  margin: 2rem;
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
 
-.score {
-  background: #ffe5cf;
-  padding: 0 3rem;
-  line-height: 1;
-  -webkit-border-radius: 1rem;
-  -moz-border-radius: 1rem;
-  border-radius: 1rem;
-  color: #3b1010;
+/* Background */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: url("./Asset/Image/bg.jpg") no-repeat center center;
+  background-size: cover;
+  z-index: -2;
+}
+
+/* Start Screen */
+#start-screen {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  background: url("./Asset/Image/logo.png") no-repeat center center;
+  width: 300px;
+  height: 150px;
+  background-size: contain;
+  margin-top: 50;
+  margin-bottom: 250px;
+  scale: 4.5;
+}
+
+.start-button {
+  background-color: #430a5d;
+  color: #f97300;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  margin: 20px;
+  cursor: pointer;
+  scale: 2.5;
+  transition: 0.3s;
+}
+
+.start-button:hover {
+  background-color: #f97300;
+  color: #430a5d;
+  scale: 2.8;
+}
+
+/* Bats Animation */
+.bat1,
+.bat2,
+.bat3 {
+  position: absolute;
+  background: url("./Asset/Image/bat.png") no-repeat center center;
+  width: 80px;
+  height: 50px;
+  background-size: contain;
+  scale: 3;
+  animation: flyBat 5s linear infinite;
+}
+
+.bat1 {
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.bat2 {
+  top: 50%;
+  right: 15%;
+  animation-delay: 1s;
+}
+
+.bat3 {
+  top: 70%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+@keyframes flyBat {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(50px) translateY(20px) rotate(20deg);
+  }
+  100% {
+    transform: translateX(100px) translateY(-20px) rotate(-20deg);
+  }
+}
+
+/* Game Screen */
+#game {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 1000px;
+  font-size: 1.5rem;
+  margin-bottom: 30px;
 }
 
 .game {
-  width: 600px;
-  height: 400px;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  flex-wrap: wrap;
-  margin: 0 auto;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 800px;
 }
 
 .hole {
@@ -63,9 +152,10 @@ h2 {
 
 .hole:after {
   display: block;
-  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/dirt.svg') bottom center no-repeat;
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/dirt.svg")
+    bottom center no-repeat;
   background-size: contain;
-  content: '';
+  content: "";
   width: 100%;
   height: 70px;
   position: absolute;
@@ -74,32 +164,85 @@ h2 {
 }
 
 .mole {
-  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1159990/mole.svg') bottom center no-repeat;
-  background-size: 60%;
-  position: absolute;
-  top: 100%;
   width: 100%;
   height: 100%;
-  transition: all 0.4s;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 100%;
+  transition: top 0.5s;
+}
+
+.mole.hit {
+  transform: scale(1.1);
+  transition: transform 0.1s;
+}
+
+.mole.skeleton {
+  background-image: url("./Asset/Image/skelly.png");
+}
+
+.mole.zombie {
+  background-image: url("./Asset/Image/zombie.png");
 }
 
 .hole.up .mole {
   top: 0;
 }
 
-#start {
-  font-family: 'Nunito', sans-serif;
-  display: inline-block;
-  text-decoration: none;
-  border: 0;
-  background: #3b1010;
-  color: #fff;
-  font-size: 2rem;
-  padding: 1rem 2rem;
-  cursor: pointer;
-  margin: 1rem;
+.countdown-overlay {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  font-size: 5rem;
+  color: white;
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  z-index: 10;
 }
 
-#start:hover {
-  opacity: 0.8;
+.countdown-show {
+  transform: scale(12);
+  opacity: 0.5;
+}
+
+.countdown-hide {
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+/* Game Over Screen */
+#game-over-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#game-over-screen h1 {
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+#restart-btn {
+  background-color: #ff6f00;
+  color: white;
+  padding: 10px 30px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#restart-btn:hover {
+  background-color: #ff8f00;
 }

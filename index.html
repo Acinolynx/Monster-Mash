@@ -4,33 +4,63 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Whack-a-mole Game</title>
+    <title>Monster Mash</title>
+    <link rel="icon" type="image/x-icon" href="./Asset/Image/bat.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>Whack-a-mole!</h1>
-    <h2>Score: <span class="score">0</span></h2>
-    <button id="start" onClick="startGame()">Start</button>
-    <div class="game">
-      <div class="hole hole1">
-        <div class="mole"></div>
-      </div>
-      <div class="hole hole2">
-        <div class="mole"></div>
-      </div>
-      <div class="hole hole3">
-        <div class="mole"></div>
-      </div>
-      <div class="hole hole4">
-        <div class="mole"></div>
-      </div>
-      <div class="hole hole5">
-        <div class="mole"></div>
-      </div>
-      <div class="hole hole6">
-        <div class="mole"></div>
+    <div class="container">
+      <div class="background"></div>
+
+      <!-- Start Screen -->
+      <div id="start-screen">
+        <div class="logo"></div>
+
+        <!-- Start Buttons -->
+        <button class="start-button" id="startButton">Start Game</button>
+
+        <!-- Bats Animation -->
+        <div class="bat1"></div>
+        <div class="bat2"></div>
+        <div class="bat3"></div>
       </div>
     </div>
+
+    <!-- Game Screen -->
+    <div id="game" style="display: none">
+      <!-- Countdown Overlay -->
+      <div class="countdown-overlay" id="countdownOverlay"></div>
+
+      <!-- Scoreboard -->
+      <div class="scoreboard">
+        <div class="player-score">Score: <span>0</span></div>
+      </div>
+
+      <!-- Game Holes -->
+      <div class="holes">
+        <div class="hole"><div class="mole skeleton"></div></div>
+        <div class="hole"><div class="mole zombie"></div></div>
+        <div class="hole"><div class="mole skeleton"></div></div>
+        <div class="hole"><div class="mole zombie"></div></div>
+        <div class="hole"><div class="mole skeleton"></div></div>
+        <div class="hole"><div class="mole zombie"></div></div>
+      </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" style="display: none">
+      <h1 id="winner"></h1>
+      <button id="restart-btn">Restart</button>
+    </div>
+
+    <!-- Audio Files -->
+    <audio id="hitSoundSkeleton" src="./Asset/Audio/SkellyHit.mp3"></audio>
+    <audio id="hitSoundZombie" src="./Asset/Audio/ZombieHit.mp3"></audio>
+    <audio id="countdownSound" src="./Asset/Audio/countdown.mp3"></audio>
+    <audio id="gameOverSound" src="./Asset/Audio/cheer.mp3"></audio>
+    <audio id="bgm" src="./Asset/Audio/bgm.mp3"></audio>
+
+    <!-- JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>

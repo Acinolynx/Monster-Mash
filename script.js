@@ -1,56 +1,155 @@
-const holes = document.querySelectorAll('.hole');
-const scoreBoard = document.querySelector('.score');
-const moles = document.querySelectorAll('.mole');
-const button = document.querySelector('#start');
+// DOM Elements
+const holes = document.querySelectorAll(".hole");
+const playerScoreBoard = document.querySelector(".player-score");
+const moles = document.querySelectorAll(".mole");
+const startButton = document.getElementById("startButton");
+const countdownOverlay = document.getElementById("countdownOverlay");
+const gameScreen = document.getElementById("game");
+const gameOverScreen = document.getElementById("game-over-screen");
+const restartBtn = document.getElementById("restart-btn");
+const hitSoundSkeleton = document.getElementById("hitSoundSkeleton");
+const hitSoundZombie = document.getElementById("hitSoundZombie");
+const countdownSound = document.getElementById("countdownSound");
+const bgm = document.getElementById("bgm");
+const gameOverSound = document.getElementById("gameOverSound");
+
 let lastHole;
 let timeUp = false;
-let score = 0;
+let playerScore = 0;
+let countdownIndex = 0;
 
+// Countdown numbers
+const countdownNumbers = ["3", "2", "1", "Go!"];
+
+// Adjust volume for sound effects
+hitSoundSkeleton.volume = 0.5;
+hitSoundZombie.volume = 0.5;
+countdownSound.volume = 0.2;
+gameOverSound.volume = 0.5;
+bgm.volume = 0.05;
+
+// Event Listeners for Start Button
+startButton.addEventListener("click", startCountdown);
+
+// Start Countdown Function
+function startCountdown() {
+  countdownIndex = 0; // Reset countdown index
+  document.getElementById("start-screen").style.display = "none"; // Hide start screen
+  countdownOverlay.style.display = "flex"; // Show countdown overlay
+  countdownSound.play();
+  showCountdown(); // Start showing the countdown
+}
+
+// Show Countdown Function
+function showCountdown() {
+  if (countdownIndex < countdownNumbers.length) {
+    countdownOverlay.innerText = countdownNumbers[countdownIndex];
+    countdownOverlay.classList.add("countdown-show");
+    countdownOverlay.classList.remove("countdown-hide");
+
+    setTimeout(() => {
+      countdownOverlay.classList.add("countdown-hide");
+      countdownOverlay.classList.remove("countdown-show");
+      countdownIndex++;
+      setTimeout(showCountdown, 350); // Delay before showing the next number
+    }, 500);
+  } else {
+    countdownOverlay.style.display = "none"; // Hide overlay after countdown finishes
+    startGame(); // Start the game after countdown
+  }
+}
+
+// Start Game Logic
+function startGame() {
+  playerScore = 0;
+  playerScoreBoard.textContent = playerScore;
+  timeUp = false;
+  gameScreen.style.display = "block"; // Show game screen
+  bgm.play(); // Play background music
+  peep(); // Start mole popping up
+  setTimeout(() => {
+    timeUp = true;
+    endGame(); // End game after 10 seconds
+  }, 10000); // Game duration is 10 seconds
+}
+
+// Random time generator for mole popping up
 function randomTime(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 
+// Random hole selection for moles
 function randomHole(holes) {
   const idx = Math.floor(Math.random() * holes.length);
   const hole = holes[idx];
 
-  if(hole === lastHole) {
-    console.log('Same one');
-    return randomHole(holes);
+  if (hole === lastHole) {
+    return randomHole(holes); // Avoid same hole twice
   }
 
   lastHole = hole;
   return hole;
 }
 
+// Peep function to pop up moles
 function peep() {
-  const time = randomTime(200, 1000);
-  const hole = randomHole(holes);
-  hole.classList.add('up');
+  const time = randomTime(200, 1000); // Time mole stays up
+  const hole = randomHole(holes); // Choose a random hole
+  hole.classList.add("up"); // Mole pops up
+
   setTimeout(() => {
-    hole.classList.remove('up');
-    if(!timeUp) peep();
+    hole.classList.remove("up"); // Mole goes down
+    if (!timeUp) peep(); // Continue if time is not up
   }, time);
 }
 
-function startGame() {
-  scoreBoard.textContent = 0;
-  timeUp = false;
-  score = 0;
-  button.style.visibility = 'hidden';
-  peep();
-  setTimeout(() => {
-    timeUp = true;
-    button.innerHTML = 'Try again?'
-    button.style.visibility = 'visible';
-  }, 10000);
-}
-
+// Mole hit function (bonk)
 function bonk(e) {
-  if(!e.isTrusted) return;
-  score++;
-  this.classList.remove('up');
-  scoreBoard.textContent = score;
+  if (!e.isTrusted) return; // Ignore fake clicks
+
+  this.classList.add("hit"); // Add a 'hit' class for visual feedback
+  setTimeout(() => this.classList.remove("hit"), 200); // Remove after 200ms
+
+  // Determine which monster was hit and update score
+  if (this.classList.contains("skeleton")) {
+    playerScore++;
+    playerScoreBoard.textContent = playerScore;
+    hitSoundSkeleton.play(); // Play skeleton hit sound
+  } else if (this.classList.contains("zombie")) {
+    playerScore++;
+    playerScoreBoard.textContent = playerScore;
+    hitSoundZombie.play(); // Play zombie hit sound
+  }
+
+  this.classList.remove("up"); // Remove the mole from the hole
 }
 
-moles.forEach(mole => mole.addEventListener('click', bonk));
+// End Game Function
+function endGame() {
+  gameScreen.style.display = "none"; // Hide game screen
+  gameOverScreen.style.display = "flex"; // Show game over screen
+  bgm.pause();
+  bgm.currentTime = 0; // Reset background music
+
+  // Display player score and high score
+  const highScore = localStorage.getItem("highScore") || 0;
+  let winnerMessage = `Your Score: ${playerScore}`;
+
+  if (playerScore > highScore) {
+    localStorage.setItem("highScore", playerScore);
+    winnerMessage += "\nNew High Score!";
+  } else {
+    winnerMessage += `\nHigh Score: ${highScore}`;
+  }
+
+  document.getElementById("winner").textContent = winnerMessage;
+  gameOverSound.play(); // Play game over sound
+}
+
+// Restart Button Function
+restartBtn.addEventListener("click", () => {
+  location.reload(); // Reload the game
+});
+
+// Event listeners for mole clicks (bonk)
+moles.forEach((mole) => mole.addEventListener("click", bonk));
