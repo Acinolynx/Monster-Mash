@@ -16,7 +16,7 @@
       <div id="start-screen">
         <div class="logo"></div>
 
-        <!-- Start Buttons -->
+        <!-- Start Button -->
         <button class="start-button" id="startButton">Start Game</button>
 
         <!-- Bats Animation -->
@@ -24,34 +24,41 @@
         <div class="bat2"></div>
         <div class="bat3"></div>
       </div>
-    </div>
 
-    <!-- Game Screen -->
-    <div id="game" style="display: none">
       <!-- Countdown Overlay -->
-      <div class="countdown-overlay" id="countdownOverlay"></div>
+      <div
+        id="countdownOverlay"
+        class="countdown-overlay"
+        style="display: none"
+      ></div>
 
-      <!-- Scoreboard -->
-      <div class="scoreboard">
-        <div class="player-score">Score: <span>0</span></div>
+      <!-- Game Screen -->
+      <div id="game" style="display: none">
+        <!-- Scoreboard -->
+        <div class="scoreboard">
+          <span>Score:</span><span id="score">0</span>
+        </div>
+
+        <!-- Game Holes -->
+        <div class="holes">
+          <div class="hole hole1"><div class="mole skeleton"></div></div>
+          <div class="hole hole2"><div class="mole zombie"></div></div>
+          <div class="hole hole3"><div class="mole skeleton"></div></div>
+          <div class="hole hole4"><div class="mole zombie"></div></div>
+          <div class="hole hole5"><div class="mole skeleton"></div></div>
+          <div class="hole hole6"><div class="mole zombie"></div></div>
+        </div>
       </div>
 
-      <!-- Game Holes -->
-      <div class="holes">
-        <div class="hole"><div class="mole skeleton"></div></div>
-        <div class="hole"><div class="mole zombie"></div></div>
-        <div class="hole"><div class="mole skeleton"></div></div>
-        <div class="hole"><div class="mole zombie"></div></div>
-        <div class="hole"><div class="mole skeleton"></div></div>
-        <div class="hole"><div class="mole zombie"></div></div>
+      <!-- Game Over Screen -->
+      <div id="game-over-screen">
+        <h1>Game Over</h1>
+        <div class="scores">
+          <div>Final Score: <span id="final-score">0</span></div>
+          <div>Highscore: <span id="highscore">0</span></div>
+        </div>
+        <button id="restart-btn">Restart</button>
       </div>
-    </div>
-
-    <!-- Game Over Screen -->
-    <div id="game-over-screen" style="display: none">
-      <h1 id="winner"></h1>
-      <button id="restart-btn">Restart</button>
-    </div>
 
     <!-- Audio Files -->
     <audio id="hitSoundSkeleton" src="./Asset/Audio/SkellyHit.mp3"></audio>

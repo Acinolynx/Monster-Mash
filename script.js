@@ -19,14 +19,14 @@ let playerScore = 0;
 let countdownIndex = 0;
 
 // Countdown numbers
-const countdownNumbers = ["3", "2", "1", "Go!"];
+const countdownNumbers = ["3", "2", "1", " "];
 
 // Adjust volume for sound effects
 hitSoundSkeleton.volume = 0.5;
 hitSoundZombie.volume = 0.5;
 countdownSound.volume = 0.2;
-gameOverSound.volume = 0.5;
-bgm.volume = 0.05;
+gameOverSound.volume = 0.2;
+bgm.volume = 0.02;
 
 // Event Listeners for Start Button
 startButton.addEventListener("click", startCountdown);
@@ -64,7 +64,8 @@ function startGame() {
   playerScore = 0;
   playerScoreBoard.textContent = playerScore;
   timeUp = false;
-  gameScreen.style.display = "block"; // Show game screen
+  document.getElementById("start-screen").style.display = "none";
+  document.getElementById("game").style.display = "flex"; // Show game screen
   bgm.play(); // Play background music
   peep(); // Start mole popping up
   setTimeout(() => {

@@ -17,6 +17,49 @@ html {
   overflow: hidden;
 }
 
+@keyframes slideTopToCenter {
+  0% {
+    transform: translateY(-300%) scale(0.1); /* Start smaller and off the screen */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(4.4); /* End at normal scale and center */
+    opacity: 1;
+  }
+}
+
+@keyframes breathingEffect {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes batFlap {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1); /* Start at normal position */
+  }
+  25% {
+    transform: translateY(-10px) rotate(15deg) scale(1.05); /* Move up, tilt right, slightly enlarge */
+  }
+  50% {
+    transform: translateY(0) rotate(30deg) scale(1); /* Move back to center, rotate more */
+  }
+  75% {
+    transform: translateY(10px) rotate(15deg) scale(1.05); /* Move down, tilt back, slightly enlarge */
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1); /* Return to normal */
+  }
+}
+
 .container {
   position: relative;
   width: 100%;
@@ -51,9 +94,10 @@ html {
   width: 300px;
   height: 150px;
   background-size: contain;
-  margin-top: 50;
+  margin-top: 50px;
   margin-bottom: 250px;
-  scale: 4.5;
+  transform: scale(4.5);
+  animation: slideTopToCenter 0.5s ease-out forwards;
 }
 
 .start-button {
@@ -65,14 +109,14 @@ html {
   border-radius: 10px;
   margin: 20px;
   cursor: pointer;
-  scale: 2.5;
   transition: 0.3s;
+  animation: breathingEffect 3s ease-in-out infinite;
+  scale: 2.5;
 }
 
 .start-button:hover {
   background-color: #f97300;
   color: #430a5d;
-  scale: 2.8;
 }
 
 /* Bats Animation */
@@ -84,8 +128,8 @@ html {
   width: 80px;
   height: 50px;
   background-size: contain;
-  scale: 3;
-  animation: flyBat 5s linear infinite;
+  animation: batFlap 5s linear infinite;
+  scale: 3.5;
 }
 
 .bat1 {
@@ -106,48 +150,48 @@ html {
   animation-delay: 2s;
 }
 
-@keyframes flyBat {
-  0% {
-    transform: translateX(0) translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateX(50px) translateY(20px) rotate(20deg);
-  }
-  100% {
-    transform: translateX(100px) translateY(-20px) rotate(-20deg);
-  }
-}
-
 /* Game Screen */
 #game {
+  display: none; /* This should be toggled in JavaScript */
+  position: relative; /* Allow positioning of child elements */
   width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100vh; /* Make sure the game screen takes full height */
+  display: flex; /* Flexbox for centering */
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
 }
 
+/* Scoreboard */
 .scoreboard {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-  max-width: 1000px;
-  font-size: 1.5rem;
-  margin-bottom: 30px;
+  background: #430a5d;
+  padding: 0 3rem;
+  line-height: 1;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  border-radius: 1rem;
+  color: #f97300;
+  scale: 3.5;
+  margin-bottom: 20px;
 }
 
-.game {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  max-width: 800px;
+/* Game Holes */
+.holes {
+  display: grid; /* Use grid layout for the holes */
+  grid-template-columns: repeat(3, 1fr); /* Three columns */
+  gap: 30px; /* Space between holes */
+  max-width: 800px; /* Limit width for better visibility */
+  width: 100%; /* Ensure it takes full width */
 }
 
 .hole {
-  flex: 1 0 33.33%;
-  overflow: hidden;
-  position: relative;
+  position: relative; /* Allow positioning of moles */
+  overflow: hidden; /* Hide moles when they're out of bounds */
+  height: 200px; /* Set a fixed height for the holes */
+  width: 200px;
+  display: flex; /* Use flexbox to center moles */
+  justify-content: center; /* Center moles horizontally */
+  align-items: flex-end; /* Align moles at the bottom */
 }
 
 .hole:after {
@@ -157,19 +201,21 @@ html {
   background-size: contain;
   content: "";
   width: 100%;
-  height: 70px;
+  height: 90px;
   position: absolute;
   z-index: 2;
   bottom: -30px;
+  scale: 1.2;
 }
 
+/* Moles */
 .mole {
-  width: 100%;
-  height: 100%;
+  width: 160px; /* Set a fixed width for the moles */
+  height: 160px; /* Set a fixed height for the moles */
   background-size: contain;
   background-repeat: no-repeat;
-  position: absolute;
-  top: 100%;
+  position: absolute; /* Position moles absolutely within the hole */
+  top: 100%; /* Start below the hole */
   transition: top 0.5s;
 }
 
@@ -187,13 +233,15 @@ html {
 }
 
 .hole.up .mole {
-  top: 0;
+  top: 0; /* Bring mole into the view */
 }
 
+/* Countdown Overlay */
 .countdown-overlay {
   position: absolute;
   top: 40%;
-  left: 45%;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for centering */
   font-size: 5rem;
   color: white;
   opacity: 0;
@@ -213,6 +261,7 @@ html {
 
 /* Game Over Screen */
 #game-over-screen {
+  background-color: rgba(0, 0, 0, 0.9);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -221,28 +270,41 @@ html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.9);
   padding: 40px;
   border-radius: 10px;
   text-align: center;
 }
 
+#game-over-screen .scores {
+  display: flex;
+  flex-direction: column; /* Stack scores vertically */
+  align-items: center;
+  gap: 20px; /* Add some space between scores */
+}
+
 #game-over-screen h1 {
   margin-bottom: 30px;
   font-size: 2.5rem;
+  color: #ff6f00;
+  margin-bottom: 80px;
+  margin-top: -80px;
 }
 
 #restart-btn {
-  background-color: #ff6f00;
-  color: white;
+  background-color: #430a5d;
+  color: #ff6f00;
   padding: 10px 30px;
   font-size: 1.5rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  scale: 2.5;
+  margin-bottom: 50px;
+  animation: breathingEffect 3s ease-in-out infinite;
 }
 
 #restart-btn:hover {
-  background-color: #ff8f00;
+  background-color: #ff6f00;
+  color: #430a5d;
 }
