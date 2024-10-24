@@ -1,6 +1,6 @@
 // DOM Elements
 const holes = document.querySelectorAll(".hole");
-const playerScoreBoard = document.querySelector(".player-score");
+const playerScoreBoard = document.getElementById("score");
 const moles = document.querySelectorAll(".mole");
 const startButton = document.getElementById("startButton");
 const countdownOverlay = document.getElementById("countdownOverlay");
@@ -13,20 +13,27 @@ const countdownSound = document.getElementById("countdownSound");
 const bgm = document.getElementById("bgm");
 const gameOverSound = document.getElementById("gameOverSound");
 
+// Audio settings
+hitSoundSkeleton.volume = 0.5;
+hitSoundZombie.volume = 0.5;
+countdownSound.volume = 0.2;
+gameOverSound.volume = 0.2;
+bgm.volume = 0.02;
+
+// Variables
 let lastHole;
 let timeUp = false;
 let playerScore = 0;
 let countdownIndex = 0;
 
 // Countdown numbers
-const countdownNumbers = ["3", "2", "1", " "];
+const countdownNumbers = ["3", "2", "1", "GO!"];
 
-// Adjust volume for sound effects
-hitSoundSkeleton.volume = 0.5;
-hitSoundZombie.volume = 0.5;
-countdownSound.volume = 0.2;
-gameOverSound.volume = 0.2;
-bgm.volume = 0.02;
+// Auto-play BGM on page load
+window.addEventListener("load", () => {
+  bgm.loop = true; // Loop background music
+  bgm.play().catch((error) => console.error("BGM playback failed: ", error));
+});
 
 // Event Listeners for Start Button
 startButton.addEventListener("click", startCountdown);
@@ -64,9 +71,7 @@ function startGame() {
   playerScore = 0;
   playerScoreBoard.textContent = playerScore;
   timeUp = false;
-  document.getElementById("start-screen").style.display = "none";
   document.getElementById("game").style.display = "flex"; // Show game screen
-  bgm.play(); // Play background music
   peep(); // Start mole popping up
   setTimeout(() => {
     timeUp = true;
@@ -129,21 +134,19 @@ function bonk(e) {
 function endGame() {
   gameScreen.style.display = "none"; // Hide game screen
   gameOverScreen.style.display = "flex"; // Show game over screen
-  bgm.pause();
+  bgm.pause(); // Stop BGM
   bgm.currentTime = 0; // Reset background music
 
   // Display player score and high score
   const highScore = localStorage.getItem("highScore") || 0;
-  let winnerMessage = `Your Score: ${playerScore}`;
+  document.getElementById("final-score").textContent = playerScore;
+  document.getElementById("highscore").textContent = highScore;
 
   if (playerScore > highScore) {
     localStorage.setItem("highScore", playerScore);
-    winnerMessage += "\nNew High Score!";
-  } else {
-    winnerMessage += `\nHigh Score: ${highScore}`;
+    document.getElementById("highscore").textContent = playerScore;
   }
 
-  document.getElementById("winner").textContent = winnerMessage;
   gameOverSound.play(); // Play game over sound
 }
 

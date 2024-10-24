@@ -34,6 +34,9 @@
 
       <!-- Game Screen -->
       <div id="game" style="display: none">
+
+        <div class="logo-game"></div>
+
         <!-- Scoreboard -->
         <div class="scoreboard">
           <span>Score:</span><span id="score">0</span>
@@ -48,16 +51,25 @@
           <div class="hole hole5"><div class="mole skeleton"></div></div>
           <div class="hole hole6"><div class="mole zombie"></div></div>
         </div>
+
+        <!-- Bats Animation -->
+        <div class="batG1"></div>
+        <div class="batG2"></div>
+        <div class="batG3"></div>
       </div>
 
       <!-- Game Over Screen -->
-      <div id="game-over-screen">
-        <h1>Game Over</h1>
+      <div id="game-over-screen" style="display: none;">
+        <div class="logo"></div>
         <div class="scores">
           <div>Final Score: <span id="final-score">0</span></div>
           <div>Highscore: <span id="highscore">0</span></div>
         </div>
         <button id="restart-btn">Restart</button>
+
+        <div class="batGO1"></div>
+        <div class="batGO2"></div>
+        <div class="batGO3"></div>
       </div>
 
     <!-- Audio Files -->

@@ -28,6 +28,17 @@ html {
   }
 }
 
+@keyframes slideTopToCenterGame {
+  0% {
+    transform: translateY(-300%) scale(0.1); /* Start smaller and off the screen */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1); /* End at normal scale and center */
+    opacity: 1;
+  }
+}
+
 @keyframes breathingEffect {
   0% {
     transform: scale(1);
@@ -100,6 +111,17 @@ html {
   animation: slideTopToCenter 0.5s ease-out forwards;
 }
 
+.logo-game {
+  background: url("./Asset/Image/logo.png") no-repeat center center;
+  width: 300px;
+  height: 150px;
+  background-size: contain;
+  margin-top: 10px;
+  margin-bottom: 105px;
+  animation: slideTopToCenterGame 0.5s ease-out forwards;
+  scale: 3;
+}
+
 .start-button {
   background-color: #430a5d;
   color: #f97300;
@@ -122,7 +144,13 @@ html {
 /* Bats Animation */
 .bat1,
 .bat2,
-.bat3 {
+.bat3,
+.batG1,
+.batG2,
+.batG3,
+.batGO1,
+.batGO2,
+.batG03 {
   position: absolute;
   background: url("./Asset/Image/bat.png") no-repeat center center;
   width: 80px;
@@ -132,13 +160,15 @@ html {
   scale: 3.5;
 }
 
-.bat1 {
+.bat1,
+.batG1 {
   top: 20%;
   left: 10%;
   animation-delay: 0s;
 }
 
-.bat2 {
+.bat2,
+.batG2 {
   top: 50%;
   right: 15%;
   animation-delay: 1s;
@@ -148,6 +178,30 @@ html {
   top: 70%;
   left: 20%;
   animation-delay: 2s;
+}
+
+.batG3 {
+  top: 70%;
+  left: 15%;
+  animation-delay: 2s;
+}
+
+.batGO1 {
+  top: 10%;
+  left: -60%;
+  animation-delay: 0s;
+}
+
+.batGO2 {
+  top: 50%;
+  right: -70%;
+  animation-delay: 1s;
+}
+
+.batGO3 {
+  top: 70%;
+  left: -20%;
+  animation-delay: 3s;
 }
 
 /* Game Screen */
@@ -276,18 +330,14 @@ html {
 }
 
 #game-over-screen .scores {
+  color: #ff6f00;
   display: flex;
   flex-direction: column; /* Stack scores vertically */
   align-items: center;
-  gap: 20px; /* Add some space between scores */
-}
-
-#game-over-screen h1 {
-  margin-bottom: 30px;
-  font-size: 2.5rem;
-  color: #ff6f00;
-  margin-bottom: 80px;
-  margin-top: -80px;
+  gap: 10px; /* Add some space between scores */
+  font-size: 3.5rem;
+  margin-bottom: 60px;
+  margin-top: -90px;
 }
 
 #restart-btn {
