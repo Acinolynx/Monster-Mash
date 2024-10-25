@@ -358,3 +358,54 @@ html {
   background-color: #ff6f00;
   color: #430a5d;
 }
+
+@media screen and (max-width: 450px) {
+  .bat1,
+  .bat2,
+  .bat3,
+  .batG1,
+  .batG2,
+  .batG3,
+  .batGO1,
+  .batGO2,
+  .batG03 {
+    display: none;
+  }
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .start-button {
+    scale: 2;
+  }
+
+  .logo-game {
+    width: 1000px;
+    height: 100px;
+  }
+
+  .scoreboard {
+    font-size: 1rem;
+    scale: 2.5;
+  }
+
+  .holes {
+    scale: 0.6;
+  }
+
+  .hole {
+    translate: -60% -10%;
+  }
+
+  #game-over-screen {
+    width: 250px;
+  }
+  #game-over-screen .scores {
+    font-size: 2.5rem;
+  }
+
+  #restart-btn {
+    scale: 2;
+  }
+}

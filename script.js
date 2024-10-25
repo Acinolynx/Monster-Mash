@@ -27,7 +27,7 @@ let playerScore = 0;
 let countdownIndex = 0;
 
 // Countdown numbers
-const countdownNumbers = ["3", "2", "1", "GO!"];
+const countdownNumbers = ["3", "2", "1", " "];
 
 // Auto-play BGM on page load
 window.addEventListener("load", () => {
